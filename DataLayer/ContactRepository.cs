@@ -1,9 +1,25 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace DataLayer
 {
+    public class ContactRepositoryMySql
+    {
+        private readonly IDbConnection db;
+
+        public ContactRepositoryMySql(string strConnection)
+        {
+            this.db = new MySqlConnection(strConnection);
+        }
+
+        public List<Contact> GetAll()
+        {
+            return this.db.Query<Contact>("SELECT * FROM Contacts").ToList();
+        }
+    }
+
     public class ContactRepository : IContactRepository
     {
         private readonly IDbConnection db;
